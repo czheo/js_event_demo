@@ -1,10 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>Javascript Event Demo</title>
+<style type="text/css">
+* {
+    padding : 0;
+    margin : 0;
+}
+#canvas {
+    position : absolute;
+    background : red;
+}
+</style>
 </head>
 <body>
-    temp github page
+<canvas id="canvas" width="500", height="300"></canvas>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+<script type="text/javascript">
+var nextFrame = window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback) { return setTimeout(callback, 1); },
+    
+    cancelFrame = window.cancelRequestAnimationFrame ||
+                window.webkitCancelAnimationFrame ||
+                window.webkitCancelRequestAnimationFrame ||
+                window.mozCancelRequestAnimationFrame ||
+                window.oCancelRequestAnimationFrame ||
+                window.msCancelRequestAnimationFrame ||
+                clearTimeout,
+    
+    touches, animation_id;
+
+$("#canvas").on("touchstart", function(e){
+        touches = e.originalEvent.touches;
+        animation_id = update();
+    }).on("touchmove", function(e){
+        touches = e.originalEvent.touches;
+    }).on("touchend", function(e){
+        end(animation_id);
+    });
+
+var canvas = document.getElementById('canvas');
+if (canvas.getContext){
+  var ctx = canvas.getContext('2d');
+}
+
+function update(){
+    $.each(touches, function(idx, touch){
+        ctx.beginPath();
+        ctx.arc(touch.pageX, touch.pageY, 20, 0, 2 * Math.PI);
+        ctx.stroke();
+    });
+    return animation_id = nextFrame(update);
+}
+
+function end(animation_id){
+    cancelFrame(animation_id);
+}
+</script>
 </body>
 </html>
