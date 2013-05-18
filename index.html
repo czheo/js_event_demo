@@ -34,33 +34,43 @@ var nextFrame = window.requestAnimationFrame ||
                 window.msCancelRequestAnimationFrame ||
                 clearTimeout,
     
-    touches, animation_id;
+    touches, animation_flag = false;
 
 $("#canvas").on("touchstart", function(e){
         touches = e.originalEvent.touches;
-        animation_id = update();
+        start();
     }).on("touchmove", function(e){
         touches = e.originalEvent.touches;
-    }).on("touchend", function(e){
-        end(animation_id);
+    }).on("touchend touchcancel", function(e){
+        end();
+    }).attr({
+        height : innerHeight,
+        width : innerWidth
     });
 
 var canvas = document.getElementById('canvas');
 if (canvas.getContext){
-  var ctx = canvas.getContext('2d');
+    var ctx = canvas.getContext('2d');
 }
-
+function start() {
+    animation_flag = true;
+    update();
+}
 function update(){
-    $.each(touches, function(idx, touch){
-        ctx.beginPath();
-        ctx.arc(touch.pageX, touch.pageY, 20, 0, 2 * Math.PI);
-        ctx.stroke();
-    });
-    return animation_id = nextFrame(update);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if (animation_flag === true){
+        $.each(touches, function(idx, touch){
+            ctx.beginPath();
+            ctx.arc(touch.pageX, touch.pageY, 20, 0, 2 * Math.PI);
+            ctx.stroke();
+        });
+        nextFrame(update);
+        console.log("update");
+    }
 }
-
-function end(animation_id){
-    cancelFrame(animation_id);
+function end(){
+    animation_flag = false;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 }
 </script>
 </body>
