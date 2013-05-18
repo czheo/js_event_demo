@@ -34,7 +34,11 @@ var nextFrame = window.requestAnimationFrame ||
                 window.msCancelRequestAnimationFrame ||
                 clearTimeout,
     
-    touches, animation_flag = false;
+    // if animation flag is true, render frames
+    // else, do no renderring
+    animation_flag = false,
+    
+    touches;
 
 $("#canvas").on("touchstart", function(e){
         touches = e.originalEvent.touches;
@@ -62,7 +66,11 @@ function update(){
     if (animation_flag === true){
         $.each(touches, function(idx, touch){
             ctx.beginPath();
-            ctx.arc(touch.pageX, touch.pageY, 20, 0, 2 * Math.PI);
+            ctx.arc(touch.pageX, touch.pageY, 30, 0, 2 * Math.PI);
+            ctx.fillStyle = 'green';
+            ctx.fill();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#003300';
             ctx.stroke();
         });
         nextFrame(update);
