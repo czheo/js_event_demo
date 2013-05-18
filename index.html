@@ -16,7 +16,7 @@
 </style>
 </head>
 <body>
-<canvas id="canvas" width="500", height="300"></canvas>
+<canvas id="canvas"></canvas>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script type="text/javascript">
 var nextFrame = window.requestAnimationFrame ||
@@ -41,6 +41,7 @@ $("#canvas").on("touchstart", function(e){
         start();
     }).on("touchmove", function(e){
         touches = e.originalEvent.touches;
+        e.preventDefault();
     }).on("touchend touchcancel", function(e){
         end();
     }).attr({
