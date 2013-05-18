@@ -1,4 +1,5 @@
 js_event_demo
 =============
 
-http://www.youtube.com/watch?v=DujfpXOKUp8
+demo : http://czheo.github.io/js_event_demo/
+source : http://www.youtube.com/watch?v=DujfpXOKUp8
